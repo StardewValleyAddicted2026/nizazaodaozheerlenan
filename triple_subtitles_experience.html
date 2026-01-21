@@ -1,0 +1,517 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>沉浸式音画体验</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Orbitron', 'Microsoft YaHei', monospace;
+            overflow: hidden;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 30%, #0a0a2a 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, #1a0033 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, #002244 0%, transparent 50%),
+                linear-gradient(45deg, #000000, #0c0c1d, #001122);
+            background-size: 400% 400%;
+            animation: nebulaPulse 20s ease infinite;
+            cursor: none;
+        }
+        
+        @keyframes nebulaPulse {
+            0%, 100% { 
+                background-position: 0% 50%;
+                filter: hue-rotate(0deg);
+            }
+            33% { 
+                background-position: 100% 50%;
+                filter: hue-rotate(120deg);
+            }
+            66% { 
+                background-position: 50% 100%;
+                filter: hue-rotate(240deg);
+            }
+        }
+        
+        .cyber-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 150, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 150, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        .control-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 20, 40, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 200, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 
+                0 0 20px rgba(0, 200, 255, 0.3),
+                inset 0 0 20px rgba(0, 200, 255, 0.1);
+        }
+        
+        .audio-btn {
+            background: linear-gradient(45deg, #0066ff, #00ccff);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 
+                0 0 15px rgba(0, 150, 255, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .audio-btn:hover {
+            background: linear-gradient(45deg, #00ccff, #0066ff);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 0 25px rgba(0, 200, 255, 0.8),
+                0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .audio-btn:active {
+            transform: translateY(0);
+        }
+        
+        .subtitle-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+        
+        .subtitle {
+            position: absolute;
+            font-size: 3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            white-space: nowrap;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            text-shadow: 
+                0 0 10px currentColor,
+                0 0 20px currentColor,
+                0 0 30px currentColor,
+                0 0 40px currentColor;
+        }
+        
+        /* 不同动画效果的字幕 */
+        .orbit-1 {
+            color: #00ffff;
+            animation: cyberOrbit1 25s infinite linear;
+        }
+        
+        .orbit-2 {
+            color: #ff00ff;
+            animation: cyberOrbit2 30s infinite linear reverse;
+        }
+        
+        .orbit-3 {
+            color: #ffff00;
+            animation: cyberOrbit3 35s infinite linear;
+        }
+        
+        .orbit-4 {
+            color: #00ff00;
+            animation: cyberOrbit4 28s infinite linear reverse;
+        }
+        
+        .pulse-text {
+            color: #ff5500;
+            animation: cyberPulse 4s infinite ease-in-out;
+        }
+        
+        .matrix-fall {
+            color: #00ff88;
+            animation: matrixRain 15s infinite linear;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+        }
+        
+        .glitch-text {
+            color: #ff0066;
+            animation: glitchEffect 3s infinite;
+        }
+        
+        @keyframes cyberOrbit1 {
+            0% { transform: rotate(0deg) translateX(300px) rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) translateX(300px) rotate(-180deg) scale(1.3); }
+            100% { transform: rotate(360deg) translateX(300px) rotate(-360deg) scale(1); }
+        }
+        
+        @keyframes cyberOrbit2 {
+            0% { transform: rotate(0deg) translateX(350px) rotate(0deg) skew(0deg); }
+            50% { transform: rotate(-180deg) translateX(350px) rotate(180deg) skew(10deg); }
+            100% { transform: rotate(-360deg) translateX(350px) rotate(360deg) skew(0deg); }
+        }
+        
+        @keyframes cyberOrbit3 {
+            0% { transform: rotate(0deg) translateX(250px) translateY(0) rotate(0deg); }
+            33% { transform: rotate(120deg) translateX(250px) translateY(100px) rotate(-120deg); }
+            66% { transform: rotate(240deg) translateX(250px) translateY(-100px) rotate(-240deg); }
+            100% { transform: rotate(360deg) translateX(250px) translateY(0) rotate(-360deg); }
+        }
+        
+        @keyframes cyberOrbit4 {
+            0% { transform: rotate(0deg) translateX(400px) rotate(0deg) scale(1); }
+            50% { transform: rotate(-180deg) translateX(400px) rotate(180deg) scale(0.8); }
+            100% { transform: rotate(-360deg) translateX(400px) rotate(360deg) scale(1); }
+        }
+        
+        @keyframes cyberPulse {
+            0%, 100% { 
+                opacity: 0.7; 
+                transform: scale(1);
+                filter: blur(0px);
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1.5);
+                filter: blur(2px) brightness(2);
+            }
+        }
+        
+        @keyframes matrixRain {
+            0% { 
+                transform: translateY(-100vh) rotate(0deg); 
+                opacity: 0; 
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translateY(100vh) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+        
+        @keyframes glitchEffect {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); }
+            40% { transform: translate(-5px, -5px); }
+            60% { transform: translate(5px, 5px); }
+            80% { transform: translate(5px, -5px); }
+        }
+        
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: particleFloat 15s infinite linear;
+            box-shadow: 0 0 10px #00ffff;
+        }
+        
+        @keyframes particleFloat {
+            0% { 
+                transform: translate(0, 0) rotate(0deg); 
+                opacity: 0; 
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translate(var(--tx), var(--ty)) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+        
+        .info-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 10, 30, 0.6);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 150, 255, 0.2);
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: #00ccff;
+            font-size: 0.9rem;
+            text-shadow: 0 0 5px #00ccff;
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-grid"></div>
+    
+    <div class="control-panel">
+        <button class="audio-btn" id="playBtn">▶ 启动音效</button>
+        <button class="audio-btn" id="pauseBtn">⏸ 暂停音效</button>
+    </div>
+    
+    <audio id="audioPlayer" loop autoplay>
+        <source src="你咋枣到这儿勒喃.m4a" type="audio/mp4">
+        <source src="你咋枣到这儿勒喃.m4a" type="audio/mpeg">
+    </audio>
+    
+    <div class="subtitle-container" id="subtitleContainer"></div>
+    <div class="particles" id="particlesContainer"></div>
+    
+    <div class="info-panel">
+        <div>系统状态: <span id="status" style="color:#00ff00">运行中</span></div>
+    </div>
+
+    <script>
+        // 自动播放音频
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const subtitleContainer = document.getElementById('subtitleContainer');
+        const particlesContainer = document.getElementById('particlesContainer');
+        const statusElement = document.getElementById('status');
+        
+        // 三种字幕文本
+        const subtitleTexts = [
+            "三哥，你咋枣到这儿嘞喃？",
+            "你咋枣到这儿嘞喃？",
+            "好巴适哦"
+        ];
+        
+        const animationTypes = ['orbit-1', 'orbit-2', 'orbit-3', 'orbit-4', 'pulse-text', 'matrix-fall', 'glitch-text'];
+        
+        // 尝试自动播放
+        audioPlayer.play().then(() => {
+            statusElement.textContent = "音频播放中";
+            statusElement.style.color = "#00ff00";
+        }).catch(e => {
+            statusElement.textContent = "点击启动按钮";
+            statusElement.style.color = "#ffff00";
+        });
+        
+        // 创建粒子效果
+        function createParticles(count = 50) {
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // 随机位置
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                // 随机运动
+                const tx = (Math.random() - 0.5) * 200 + 'px';
+                const ty = (Math.random() - 0.5) * 200 + 'px';
+                particle.style.setProperty('--tx', tx);
+                particle.style.setProperty('--ty', ty);
+                
+                // 随机延迟和颜色
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particle.style.background = getRandomColor();
+                particle.style.boxShadow = `0 0 10px ${particle.style.background}`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // 创建旋转字幕
+        function createSubtitles() {
+            // 创建12个字幕，均匀分配三种文本
+            for (let i = 0; i < 12; i++) {
+                const subtitle = document.createElement('div');
+                const animType = animationTypes[i % animationTypes.length];
+                subtitle.className = `subtitle ${animType}`;
+                
+                // 循环使用三种文本
+                const textIndex = i % subtitleTexts.length;
+                subtitle.textContent = subtitleTexts[textIndex];
+                
+                // 随机位置和大小
+                subtitle.style.top = (Math.random() * 70 + 15) + '%';
+                subtitle.style.left = (Math.random() * 80 + 10) + '%';
+                subtitle.style.fontSize = (Math.random() * 1 + 2) + 'rem'; // 2-3rem
+                
+                // 根据文本类型设置不同颜色
+                if (textIndex === 0) {
+                    subtitle.style.color = '#00ffff'; // 第一种文本用青色
+                } else if (textIndex === 1) {
+                    subtitle.style.color = '#ff00ff'; // 第二种文本用粉色
+                } else {
+                    subtitle.style.color = '#ffff00'; // 第三种文本用黄色
+                }
+                
+                // 随机动画时长
+                subtitle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                
+                subtitleContainer.appendChild(subtitle);
+            }
+            
+            // 添加几个大的中心脉冲文字
+            for (let i = 0; i < 3; i++) {
+                const centerText = document.createElement('div');
+                centerText.className = 'subtitle pulse-text';
+                centerText.textContent = subtitleTexts[i];
+                centerText.style.left = (Math.random() * 60 + 20) + '%';
+                centerText.style.top = (Math.random() * 60 + 20) + '%';
+                centerText.style.fontSize = '4rem';
+                
+                if (i === 0) centerText.style.color = '#ff5500';
+                else if (i === 1) centerText.style.color = '#00ff88';
+                else centerText.style.color = '#aa00ff';
+                
+                subtitleContainer.appendChild(centerText);
+            }
+            
+            // 添加几个矩阵下落效果
+            for (let i = 0; i < 2; i++) {
+                const matrixText = document.createElement('div');
+                matrixText.className = 'subtitle matrix-fall';
+                matrixText.textContent = subtitleTexts[i % subtitleTexts.length];
+                matrixText.style.left = (Math.random() * 80 + 10) + '%';
+                matrixText.style.fontSize = '2.5rem';
+                matrixText.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                
+                if (i === 0) matrixText.style.color = '#00ff00';
+                else matrixText.style.color = '#ff0066';
+                
+                subtitleContainer.appendChild(matrixText);
+            }
+        }
+        
+        function getRandomColor() {
+            const colors = [
+                '#00ffff', '#ff00ff', '#ffff00', '#00ff00',
+                '#ff5500', '#ff0066', '#00ff88', '#0066ff',
+                '#aa00ff', '#00ffcc', '#ffaa00', '#ff0088'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        // 按钮控制
+        playBtn.addEventListener('click', () => {
+            audioPlayer.play();
+            statusElement.textContent = "音频播放中";
+            statusElement.style.color = "#00ff00";
+            
+            // 增强视觉效果
+            document.body.style.animationDuration = '10s';
+            createExplosion();
+        });
+        
+        pauseBtn.addEventListener('click', () => {
+            audioPlayer.pause();
+            statusElement.textContent = "静音模式";
+            statusElement.style.color = "#ff5500";
+            document.body.style.animationDuration = '30s';
+        });
+        
+        // 点击屏幕添加更多效果
+        document.body.addEventListener('click', (e) => {
+            if (e.target.classList.contains('audio-btn')) return;
+            
+            // 随机选择一种文本
+            const randomText = subtitleTexts[Math.floor(Math.random() * subtitleTexts.length)];
+            
+            // 添加新字幕
+            const subtitle = document.createElement('div');
+            subtitle.className = 'subtitle';
+            subtitle.textContent = randomText;
+            
+            subtitle.style.left = e.clientX + 'px';
+            subtitle.style.top = e.clientY + 'px';
+            
+            // 根据文本类型设置颜色
+            if (randomText === subtitleTexts[0]) {
+                subtitle.style.color = '#00ffff';
+            } else if (randomText === subtitleTexts[1]) {
+                subtitle.style.color = '#ff00ff';
+            } else {
+                subtitle.style.color = '#ffff00';
+            }
+            
+            const animType = animationTypes[Math.floor(Math.random() * animationTypes.length)];
+            subtitle.className = `subtitle ${animType}`;
+            subtitle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            subtitle.style.fontSize = (Math.random() * 1.5 + 2) + 'rem';
+            
+            subtitleContainer.appendChild(subtitle);
+            
+            // 10秒后移除
+            setTimeout(() => {
+                if (subtitle.parentNode) {
+                    subtitle.parentNode.removeChild(subtitle);
+                }
+            }, 10000);
+            
+            // 创建粒子爆炸
+            createExplosion(e.clientX, e.clientY);
+        });
+        
+        function createExplosion(x = window.innerWidth/2, y = window.innerHeight/2) {
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.background = getRandomColor();
+                particle.style.width = '8px';
+                particle.style.height = '8px';
+                particle.style.animationDuration = '2s';
+                
+                const tx = (Math.random() - 0.5) * 300 + 'px';
+                const ty = (Math.random() - 0.5) * 300 + 'px';
+                particle.style.setProperty('--tx', tx);
+                particle.style.setProperty('--ty', ty);
+                
+                particlesContainer.appendChild(particle);
+                
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, 2000);
+            }
+        }
+        
+        // 初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            createSubtitles();
+            createParticles(100);
+        });
+    </script>
+</body>
+</html>
